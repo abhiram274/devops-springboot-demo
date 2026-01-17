@@ -1,13 +1,24 @@
 package com.example.devopsdemo.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-// This annotation marks the class as a REST controller
-@RestController // Means this class will handle HTTP requests
+import java.util.Map;
+
+@RestController
 public class AppController {
 
-    @GetMapping("/health")      // Listen for GET requests at /health
+    @Value("${spring.application.name}")
+    private String appName;
+
+    @Value("${app.version}")
+    private String version;
+
+    @Value("${spring.profiles.active}")
+    private String environment;
+
+    @GetMapping("/health")
     public String health() {
         return "UP";
     }
@@ -15,5 +26,14 @@ public class AppController {
     @GetMapping("/hello")
     public String hello() {
         return "Hello DevOps";
+    }
+
+    @GetMapping("/info")
+    public Map<String, String> info() {
+        return Map.of(
+                "appName", appName,
+                "version", version,
+                "environment", environment
+        );
     }
 }
