@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   app:
-    image: devops-demo:latest
+    image: abhiramkosuru/devops-demo:${APP_VERSION}
     container_name: devopsdemo
     ports:
       - "${APP_PORT}:8080"
