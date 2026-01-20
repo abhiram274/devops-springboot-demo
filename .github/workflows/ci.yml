@@ -30,11 +30,19 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build Docker image
+      - name: Build Docker image (versioned)
         working-directory: devopsdemo
         run: |
-          docker build -t abhiramkosuru/devops-demo:latest .
+          IMAGE_NAME=abhiramkosuru/devops-demo
+          TAG=${GITHUB_SHA::7}
+
+          docker build -t $IMAGE_NAME:$TAG .
+          docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:latest
 
       - name: Push Docker image
         run: |
-          docker push abhiramkosuru/devops-demo:latest
+          IMAGE_NAME=abhiramkosuru/devops-demo
+          TAG=${GITHUB_SHA::7}
+
+          docker push $IMAGE_NAME:$TAG
+          docker push $IMAGE_NAME:latest
